@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  jax:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - CUDA_TAG=$CUDA_TAG
+        - PYTHON_VERSION=$PYTHON_VERSION
+    image: $IMAGE
+    volumes:
+      - $HOME:$HOME
+    env_file:
+      - .env
+    hostname: ubuntu
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
