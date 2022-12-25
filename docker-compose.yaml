@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  jax:
+    image: $IMAGE
+    volumes:
+      - $HOME:$HOME
+    env_file:
+      - .env
+    hostname: ubuntu
+    restart: always
+    ports:
+      - "${SSH_PORT}:22"
+      - "${NB_PORT}:8888"
+      - "${TB_PORT}:6006"
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
